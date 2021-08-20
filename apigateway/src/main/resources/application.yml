@@ -1,0 +1,40 @@
+server:
+  port: 8999
+
+eureka:
+  instance:
+    hostname: localhost
+
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+#            allowedHeaders:
+#              - content-type
+#            allowedMethods:
+#              - GET
+#              - PUT
+#              - POST
+#              - DELETE
+      routes:
+        - id: webadmin-user
+          uri: lb://webadmin-user
+          predicates:
+            - Path=/user/**
+        - id: webadmin-user-group
+          uri: lb://webadmin-user-group
+          predicates:
+            - Path=/usergroup/**
+        - id: webadmin-login
+          uri: lb://webadmin-login
+          predicates:
+            - Path=/api/v1/user/**
+
